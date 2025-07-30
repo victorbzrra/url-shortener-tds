@@ -9,6 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AccessRepository extends JpaRepository<Access, UUID> {
-    List<Access> findByUrlAndAccessedAtBetween(Url url, LocalDateTime start, LocalDateTime end);
     Long countByUrl(Url url);
+    List<Access> findByUrl(Url url);
 }
