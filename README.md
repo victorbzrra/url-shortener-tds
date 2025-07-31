@@ -74,15 +74,10 @@ As configurações podem ser ajustadas no arquivo `docker-compose.yml`.
 - `GET /api/v1/urls/{shortened}` - Redireciona para a URL original.
 - `GET /api/v1/urls/{shortened}/stats` - Consulta estatísticas da URL encurtada.
 
-A documentação completa está disponível no Swagger.
-
-```
-http://localhost:8080/swagger-ui.html
-```
+A documentação completa está disponível no Swagger. O Swagger UI não segue redirecionamentos, então teste acessando a URL encurtada diretamente no navegador.
 
 ## Diferenciais implementados
 
-- API versionada (`/api/v1`)
 - Documentação Swagger/OpenAPI
 - Tratamento global de exceções
 - Testes unitários com cobertura dos principais cenários
