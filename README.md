@@ -76,6 +76,10 @@ As configurações podem ser ajustadas no arquivo `docker-compose.yml`.
 
 A documentação completa está disponível no Swagger.
 
+```
+http://localhost:8080/swagger-ui.html
+```
+
 ## Diferenciais implementados
 
 - API versionada (`/api/v1`)
