@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
@@ -32,7 +33,10 @@ public class UrlController {
     public ResponseEntity<UrlResponseDTO> createShortUrl(@Parameter(description = "Original URL to be shortened")
                                                          @RequestBody UrlRequestDTO request) {
         Url url = urlService.createShortUrl(request.getUrl());
-        String shortUrl = "/" + url.getShortened();
+        String shortUrl = ServletUriComponentsBuilder.fromCurrentRequestUri()
+                .path("/{shortened}")
+                .buildAndExpand(url.getShortened())
+                .toUriString();
 
         UrlResponseDTO response = new UrlResponseDTO(
                 url.getOriginalUrl(),
@@ -43,7 +47,10 @@ public class UrlController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @Operation(summary = "Redirects to original URL")
+    @Operation(
+            summary = "Redirects to original URL",
+            description = "O Swagger UI não segue redirecionamentos, então teste acessando a URL encurtada diretamente no navegador."
+    )
     @GetMapping("/{shortened}")
     public ResponseEntity<Void> redirectToOriginalUrl(@Parameter(description = "Shortened URL code")
                                                       @PathVariable String shortened) {
