@@ -1,8 +1,6 @@
 
 # Desafio Backend Encurtador de URLs - TDS Company
 
----
-
 ## Descrição
 
 Este projeto é uma API RESTful desenvolvida para o desafio técnico da TDS Company. A aplicação consiste em um serviço de encurtamento de URLs, permitindo cadastrar, acessar e consultar estatísticas de acesso das URLs encurtadas.
