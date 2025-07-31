@@ -90,7 +90,7 @@ http://localhost:8080/swagger-ui.html
 ## Autor
 
 Victor Bezerra  
-[LinkedIn](https://www.linkedin.com/in/victorbzrra)  
+[LinkedIn](https://www.linkedin.com/in/victor-bzrra)  
 [GitHub](https://github.com/victorbzrra)
 
 ---
