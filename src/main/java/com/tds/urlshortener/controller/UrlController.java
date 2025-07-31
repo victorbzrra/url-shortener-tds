@@ -5,6 +5,8 @@ import com.tds.urlshortener.dto.UrlResponseDTO;
 import com.tds.urlshortener.dto.UrlStatsDTO;
 import com.tds.urlshortener.model.Url;
 import com.tds.urlshortener.service.UrlService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/v1/urls")
 public class UrlController {
     private final UrlService urlService;
@@ -24,8 +27,10 @@ public class UrlController {
         this.urlService = urlService;
     }
 
+    @Operation(summary = "Shorten an original URL")
     @PostMapping
-    public ResponseEntity<UrlResponseDTO> createShortUrl(@RequestBody UrlRequestDTO request) {
+    public ResponseEntity<UrlResponseDTO> createShortUrl(@Parameter(description = "Original URL to be shortened")
+                                                         @RequestBody UrlRequestDTO request) {
         Url url = urlService.createShortUrl(request.getUrl());
         String shortUrl = "/" + url.getShortened();
 
@@ -38,8 +43,10 @@ public class UrlController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Operation(summary = "Redirects to original URL")
     @GetMapping("/{shortened}")
-    public ResponseEntity<Void> redirectToOriginalUrl(@PathVariable String shortened) {
+    public ResponseEntity<Void> redirectToOriginalUrl(@Parameter(description = "Shortened URL code")
+                                                      @PathVariable String shortened) {
         Optional<Url> url = Optional.ofNullable(urlService.accessShortnedUrl(shortened)
                 .orElseThrow(() -> new NoSuchElementException("Short URL not found")));
 
@@ -48,8 +55,10 @@ public class UrlController {
                 .build();
     }
 
-    @GetMapping
-    public ResponseEntity<UrlStatsDTO> getStats(@PathVariable String shortened) {
+    @Operation(summary = "URL access statistics")
+    @GetMapping("/{shortened}/stats")
+    public ResponseEntity<UrlStatsDTO> getStats(@Parameter(description = "Shortened URL code")
+                                                @PathVariable String shortened) {
         Map<String, Object> stats = urlService.getUrlStats(shortened);
 
         UrlStatsDTO response = new UrlStatsDTO(

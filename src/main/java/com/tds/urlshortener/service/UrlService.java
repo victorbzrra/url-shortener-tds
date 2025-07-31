@@ -34,16 +34,16 @@ public class UrlService {
             throw new DuplicateUrlException("URL already shortened.");
         });
 
-        Url url = Url.builder().originalUrl(originalUrl).build();
-        url = urlRepository.save(url);
+        String shortUrl = Base62.encode(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
 
-        long uniqueNumber = Math.abs(url.getId().getMostSignificantBits() ^ url.getId().getLeastSignificantBits());
-
-        String shortUrl = Base62.encode(uniqueNumber);
-        url.setShortened(shortUrl);
+        Url url = Url.builder()
+                .originalUrl(originalUrl)
+                .shortened(shortUrl)
+                .build();
 
         return urlRepository.save(url);
     }
+
 
     public Optional<Url> accessShortnedUrl(String shortenedUrl) {
         Optional<Url> urlOptional = Optional.ofNullable(urlRepository.findByShortened(shortenedUrl)
