@@ -12,8 +12,8 @@ services:
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "tds"]
       interval: 5s
-      timeout: 5s
-      retries: 10
+      timeout: 10s
+      retries: 30
 
   app:
     build: .
